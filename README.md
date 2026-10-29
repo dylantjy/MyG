@@ -70,7 +70,7 @@ flowchart LR
     A --> F["MapKit + HPB<br/>GeoJSON"]
 ```
 
-**Tech stack:** SwiftUI, Swift Charts, MapKit · Node.js, Express 5, Mongoose · MongoDB Atlas · OpenAI API · Google Cloud Vision · Jest + Supertest · deployed on Render · designed in Figma.
+**Tech stack:** SwiftUI, Swift Charts, MapKit · Node.js, Express 5, Mongoose · MongoDB Atlas · OpenAI API · Google Cloud Vision · Jest + Supertest · deployed on Render.
 
 ```
 ios/        SwiftUI app (open ios/MyG.xcodeproj)
@@ -82,12 +82,10 @@ docs/       Setup guide
 
 | | Role | Owned |
 |---|---|---|
-| **Dylan Teo** ([@dylantjy](https://github.com/dylantjy)) | UI/UX design and iOS frontend | Figma designs; the entire SwiftUI app: login/signup, workout logger, progress charts, AI coach chat, muscle tier view, food scanner, macro-friendly map; collaborated on prompt design for the AI coach |
+| **Dylan Teo** ([@dylantjy](https://github.com/dylantjy)) | UI/UX design and iOS frontend | UI/UX: early Figma wireframes, then designed and iterated directly in SwiftUI. The entire iOS app: login/signup, workout logger, progress charts, AI coach chat, muscle tier view, food scanner, macro-friendly map. Shaped the AI coach's tone and its science-based coaching rules |
 | **Alden Chua** ([@denz-denz](https://github.com/denz-denz)) | Backend | Express API, MongoDB models, auth, OpenAI and Vision integrations, Render deployment, Jest test suite |
 
 We integrated and debugged the frontend and backend together.
-
-<!-- TODO: add Figma link, e.g. **Design:** [Figma file](https://www.figma.com/...) -->
 
 ## Running it
 
@@ -96,7 +94,7 @@ See [docs/SETUP.md](docs/SETUP.md). In short: open `ios/MyG.xcodeproj` in Xcode 
 ## Testing
 
 - **Backend:** Jest + Supertest against an in-memory MongoDB (`mongodb-memory-server`), covering signup/login, the workout lifecycle (start → add exercise → log) and the AI routes.
-- **iOS:** manual testing of each flow in the Xcode Simulator.
+- **iOS:** XCUITest UI tests generated with Cursor and run in Xcode, plus manual testing of each flow in the Simulator. The UI test target was not preserved in this repo.
 - **Users:** Google Forms survey on usability, clarity, and the accuracy of macro estimates and AI suggestions.
 
 ## Known limitations
