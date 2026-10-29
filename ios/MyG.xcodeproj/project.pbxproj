@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AB297DD02DE5A72300F0F520 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AB297DCF2DE5A72300F0F520 /* GoogleSignIn */; };
+		AB297DD22DE5A72300F0F520 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB297DD12DE5A72300F0F520 /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB297DAD2DE5870D00F0F520 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB297D972DE5870B00F0F520 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB297D9E2DE5870B00F0F520;
+			remoteInfo = MyG;
+		};
+		AB297DB72DE5870D00F0F520 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB297D972DE5870B00F0F520 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB297D9E2DE5870B00F0F520;
+			remoteInfo = MyG;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AB297D9F2DE5870B00F0F520 /* MyG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyG.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB297DAC2DE5870D00F0F520 /* MyGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB297DB62DE5870D00F0F520 /* MyGUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyGUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AB297DCD2DE59E3B00F0F520 /* Exceptions for "MyG" folder in "MyG" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AB297D9E2DE5870B00F0F520 /* MyG */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AB297DA12DE5870B00F0F520 /* MyG */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AB297DCD2DE59E3B00F0F520 /* Exceptions for "MyG" folder in "MyG" target */,
+			);
+			path = MyG;
+			sourceTree = "<group>";
+		};
+		AB297DAF2DE5870D00F0F520 /* MyGTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MyGTests;
+			sourceTree = "<group>";
+		};
+		AB297DB92DE5870D00F0F520 /* MyGUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MyGUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AB297D9C2DE5870B00F0F520 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB297DD02DE5A72300F0F520 /* GoogleSignIn in Frameworks */,
+				AB297DD22DE5A72300F0F520 /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB297DA92DE5870D00F0F520 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB297DB32DE5870D00F0F520 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AB297D962DE5870B00F0F520 = {
+			isa = PBXGroup;
+			children = (
+				AB297DA12DE5870B00F0F520 /* MyG */,
+				AB297DAF2DE5870D00F0F520 /* MyGTests */,
+				AB297DB92DE5870D00F0F520 /* MyGUITests */,
+				AB297DA02DE5870B00F0F520 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AB297DA02DE5870B00F0F520 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB297D9F2DE5870B00F0F520 /* MyG.app */,
+				AB297DAC2DE5870D00F0F520 /* MyGTests.xctest */,
+				AB297DB62DE5870D00F0F520 /* MyGUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AB297D9E2DE5870B00F0F520 /* MyG */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB297DC02DE5870D00F0F520 /* Build configuration list for PBXNativeTarget "MyG" */;
+			buildPhases = (
+				AB297D9B2DE5870B00F0F520 /* Sources */,
+				AB297D9C2DE5870B00F0F520 /* Frameworks */,
+				AB297D9D2DE5870B00F0F520 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AB297DA12DE5870B00F0F520 /* MyG */,
+			);
+			name = MyG;
+			packageProductDependencies = (
+				AB297DCF2DE5A72300F0F520 /* GoogleSignIn */,
+				AB297DD12DE5A72300F0F520 /* GoogleSignInSwift */,
+			);
+			productName = MyG;
+			productReference = AB297D9F2DE5870B00F0F520 /* MyG.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AB297DAB2DE5870D00F0F520 /* MyGTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB297DC32DE5870D00F0F520 /* Build configuration list for PBXNativeTarget "MyGTests" */;
+			buildPhases = (
+				AB297DA82DE5870D00F0F520 /* Sources */,
+				AB297DA92DE5870D00F0F520 /* Frameworks */,
+				AB297DAA2DE5870D00F0F520 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB297DAE2DE5870D00F0F520 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AB297DAF2DE5870D00F0F520 /* MyGTests */,
+			);
+			name = MyGTests;
+			packageProductDependencies = (
+			);
+			productName = MyGTests;
+			productReference = AB297DAC2DE5870D00F0F520 /* MyGTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AB297DB52DE5870D00F0F520 /* MyGUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB297DC62DE5870D00F0F520 /* Build configuration list for PBXNativeTarget "MyGUITests" */;
+			buildPhases = (
+				AB297DB22DE5870D00F0F520 /* Sources */,
+				AB297DB32DE5870D00F0F520 /* Frameworks */,
+				AB297DB42DE5870D00F0F520 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB297DB82DE5870D00F0F520 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AB297DB92DE5870D00F0F520 /* MyGUITests */,
+			);
+			name = MyGUITests;
+			packageProductDependencies = (
+			);
+			productName = MyGUITests;
+			productReference = AB297DB62DE5870D00F0F520 /* MyGUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AB297D972DE5870B00F0F520 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					AB297D9E2DE5870B00F0F520 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					AB297DAB2DE5870D00F0F520 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = AB297D9E2DE5870B00F0F520;
+					};
+					AB297DB52DE5870D00F0F520 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = AB297D9E2DE5870B00F0F520;
+					};
+				};
+			};
+			buildConfigurationList = AB297D9A2DE5870B00F0F520 /* Build configuration list for PBXProject "MyG" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AB297D962DE5870B00F0F520;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AB297DCE2DE5A6EA00F0F520 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AB297DA02DE5870B00F0F520 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB297D9E2DE5870B00F0F520 /* MyG */,
+				AB297DAB2DE5870D00F0F520 /* MyGTests */,
+				AB297DB52DE5870D00F0F520 /* MyGUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AB297D9D2DE5870B00F0F520 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB297DAA2DE5870D00F0F520 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB297DB42DE5870D00F0F520 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AB297D9B2DE5870B00F0F520 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB297DA82DE5870D00F0F520 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB297DB22DE5870D00F0F520 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB297DAE2DE5870D00F0F520 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB297D9E2DE5870B00F0F520 /* MyG */;
+			targetProxy = AB297DAD2DE5870D00F0F520 /* PBXContainerItemProxy */;
+		};
+		AB297DB82DE5870D00F0F520 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB297D9E2DE5870B00F0F520 /* MyG */;
+			targetProxy = AB297DB72DE5870D00F0F520 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AB297DBE2DE5870D00F0F520 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AB297DBF2DE5870D00F0F520 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AB297DC12DE5870D00F0F520 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyG/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to show macro-friendly spots near you.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aldy.MyG;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AB297DC22DE5870D00F0F520 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyG/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to show macro-friendly spots near you.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aldy.MyG;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AB297DC42DE5870D00F0F520 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aldy.MyGTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyG";
+			};
+			name = Debug;
+		};
+		AB297DC52DE5870D00F0F520 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aldy.MyGTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyG";
+			};
+			name = Release;
+		};
+		AB297DC72DE5870D00F0F520 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aldy.MyGUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MyG;
+			};
+			name = Debug;
+		};
+		AB297DC82DE5870D00F0F520 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aldy.MyGUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MyG;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AB297D9A2DE5870B00F0F520 /* Build configuration list for PBXProject "MyG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB297DBE2DE5870D00F0F520 /* Debug */,
+				AB297DBF2DE5870D00F0F520 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB297DC02DE5870D00F0F520 /* Build configuration list for PBXNativeTarget "MyG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB297DC12DE5870D00F0F520 /* Debug */,
+				AB297DC22DE5870D00F0F520 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB297DC32DE5870D00F0F520 /* Build configuration list for PBXNativeTarget "MyGTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB297DC42DE5870D00F0F520 /* Debug */,
+				AB297DC52DE5870D00F0F520 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB297DC62DE5870D00F0F520 /* Build configuration list for PBXNativeTarget "MyGUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB297DC72DE5870D00F0F520 /* Debug */,
+				AB297DC82DE5870D00F0F520 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB297DCE2DE5A6EA00F0F520 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB297DCF2DE5A72300F0F520 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB297DCE2DE5A6EA00F0F520 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		AB297DD12DE5A72300F0F520 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB297DCE2DE5A6EA00F0F520 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AB297D972DE5870B00F0F520 /* Project object */;
+}
