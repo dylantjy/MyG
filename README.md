@@ -65,11 +65,11 @@ We tested the finished app with 9 lifters, from beginners to experienced users, 
 flowchart LR
     A["iOS app<br/>SwiftUI"] -->|REST / JSON| B["Express.js API"]
     B --> C[("MongoDB<br/>users, workouts,<br/>chat history")]
-    B --> D["OpenAI API<br/>coach, tiers,<br/>macros, food photos"]
+    B --> D["LLM: local Gemma 3 via Ollama<br/>or OpenAI<br/>coach, tiers, macros, food photos"]
     A --> F["MapKit + HPB<br/>GeoJSON"]
 ```
 
-**Tech stack:** SwiftUI, Swift Charts, MapKit · Node.js, Express 5, Mongoose · MongoDB (Atlas or local) · OpenAI API (JSON mode, image input) · Jest + Supertest.
+**Tech stack:** SwiftUI, Swift Charts, MapKit · Node.js, Express 5, Mongoose · MongoDB (Atlas or local) · LLM through the OpenAI-compatible API: free local Gemma 3 via Ollama by default, or OpenAI · Jest + Supertest.
 
 ```
 ios/        SwiftUI app (open ios/MyG.xcodeproj)
@@ -88,7 +88,7 @@ We integrated and debugged the frontend and backend together.
 
 ## Running it
 
-See [docs/SETUP.md](docs/SETUP.md). In short: put an OpenAI API key in `backend/.env`, run `npm install && npm run seed && npm start` in `backend/`, then build the iOS app in the Simulator. Debug builds talk to `http://localhost:3000`. No database setup is needed: without a `MONGODB_URI` the backend runs a local MongoDB.
+See [docs/SETUP.md](docs/SETUP.md). In short: install [Ollama](https://ollama.com) and run `ollama pull gemma3:4b`, run `npm install && npm run seed && npm start` in `backend/`, then build the iOS app in the Simulator. Everything runs locally and free: no API keys, and no database setup, because without a `MONGODB_URI` the backend runs a local MongoDB. Debug builds of the app talk to `http://localhost:3000`.
 
 ## Testing
 
@@ -109,7 +109,8 @@ While preparing this repo in 2026, I ([@dylantjy](https://github.com/dylantjy)) 
 - **Restored the iOS source.** It had ended up as an Xcode settings zip, so no Swift code was visible on `main`.
 - **Self-contained backend:** it now runs locally with no database setup, and the server starts listening before the database connects, so it no longer hangs when MongoDB is unreachable.
 - **Food scanner works end to end:** the app now uploads the photo, which it never did before (only the text description was sent). The backend sends the photo straight to the LLM, replacing Google Cloud Vision.
-- **More reliable AI output:** JSON mode for the muscle tiers and macro estimates (malformed JSON was our most common bug), a current model that can be changed in config, and the coach now remembers its own replies as well as the user's questions.
+- **Free, local AI by default:** the backend talks to any OpenAI-compatible endpoint and defaults to the open-weights Gemma 3 model running on your own machine through Ollama, so no paid API key is needed. Set an OpenAI key to switch back.
+- **More reliable AI output:** JSON mode for the muscle tiers and macro estimates (malformed JSON was our most common bug), and the coach now remembers its own replies as well as the user's questions.
 - **Login errors are shown to the user** instead of being silently ignored, and there's a demo-data seed script.
 
 ## Reflections

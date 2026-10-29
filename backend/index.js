@@ -4,6 +4,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const connectDatabase = require('./db');
+const llm = require('./utils/openai');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
@@ -39,7 +40,7 @@ app.use((err, req, res, next) => {
 //start server and connect to mongodb if not in testing mode
 //listen straight away so the server answers even if the database is slow or down
 if (require.main === module) {
-  app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
+  app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}, AI model ${llm.model} at ${llm.baseURL || 'api.openai.com'}`));
   connectDatabase()
     .then(where => console.log(`✅ Connected to ${where}`))
     .catch(err => console.error('❌ MongoDB connection error:', err));
