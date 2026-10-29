@@ -88,7 +88,7 @@ We integrated and debugged the frontend and backend together.
 
 ## Running it
 
-See [docs/SETUP.md](docs/SETUP.md). In short: install [Ollama](https://ollama.com) and run `ollama pull gemma3:4b`, run `npm install && npm run seed && npm start` in `backend/`, then build the iOS app in the Simulator. Everything runs locally and free: no API keys, and no database setup, because without a `MONGODB_URI` the backend runs a local MongoDB. Debug builds of the app talk to `http://localhost:3000`.
+See [docs/SETUP.md](docs/SETUP.md). In short: install [Ollama](https://ollama.com) and run `ollama pull gemma3:4b`, run `npm install && npm start` in `backend/`, then build the iOS app in the Simulator. Everything runs locally and free: no API keys, and no database setup, because without a `MONGODB_URI` the backend runs a local MongoDB. Debug builds of the app talk to `http://localhost:3000`.
 
 ## Testing
 

@@ -1,9 +1,8 @@
-// Creates (or resets) a demo account with three weeks of push/pull/legs workouts
-// Usage: npm run seed
+// Creates (or resets) a demo account with three weeks of push/pull/legs workouts.
+// Run with the server stopped: npm run seed
+// The server also calls seedDemo() on startup with the local database, creating the account if it's missing.
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-const connectDatabase = require('../db');
 const User = require('../models/User');
 const Workout = require('../models/Workout');
 const ChatHistory = require('../models/ChatHistory');
@@ -39,11 +38,12 @@ function buildExercise([name, sets], week) {
     return { name, sets: sets.length, reps, weights, exerciseVolume };
 }
 
-async function seed() {
-    const where = await connectDatabase();
-    console.log(`Connected to ${where}`);
-
+// With reset: false, leaves an existing demo account untouched
+async function seedDemo({ reset }) {
     let user = await User.findOne({ email: DEMO_EMAIL });
+    if (user && !reset) {
+        return false;
+    }
     if (!user) {
         user = await User.create({
             email: DEMO_EMAIL,
@@ -67,13 +67,26 @@ async function seed() {
         });
     }
     await Workout.insertMany(workouts);
-
-    console.log(`Seeded ${workouts.length} workouts for ${DEMO_EMAIL} / ${DEMO_PASSWORD}`);
-    await mongoose.disconnect();
-    process.exit(0);
+    console.log(`🌱 Seeded ${workouts.length} workouts for ${DEMO_EMAIL} / ${DEMO_PASSWORD}`);
+    return true;
 }
 
-seed().catch(err => {
-    console.error('Seeding failed:', err);
-    process.exit(1);
-});
+module.exports = { seedDemo, DEMO_EMAIL, DEMO_PASSWORD };
+
+if (require.main === module) {
+    const { connectDatabase, disconnectDatabase } = require('../db');
+    connectDatabase()
+        .then(where => {
+            console.log(`Connected to ${where}`);
+            return seedDemo({ reset: true });
+        })
+        .then(() => disconnectDatabase())
+        .then(() => process.exit(0))
+        .catch(err => {
+            console.error('Seeding failed:', err.message);
+            if (/lock|already in use|Address/i.test(err.message)) {
+                console.error('Is the server still running? Stop it (Ctrl+C) and run npm run seed again.');
+            }
+            process.exit(1);
+        });
+}

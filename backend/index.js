@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const connectDatabase = require('./db');
+const { connectDatabase, disconnectDatabase, isLocalDatabase } = require('./db');
+const { seedDemo } = require('./scripts/seed-demo');
 const llm = require('./utils/openai');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,8 +43,20 @@ app.use((err, req, res, next) => {
 if (require.main === module) {
   app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}, AI model ${llm.model} at ${llm.baseURL || 'api.openai.com'}`));
   connectDatabase()
-    .then(where => console.log(`✅ Connected to ${where}`))
+    .then(where => {
+      console.log(`✅ Connected to ${where}`);
+      //make sure the local database always has a demo account to log in with
+      if (isLocalDatabase()) return seedDemo({ reset: false });
+    })
     .catch(err => console.error('❌ MongoDB connection error:', err));
+
+  //on Ctrl+C, stop the database cleanly so recent writes aren't lost
+  const shutdown = () => {
+    console.log('\nShutting down...');
+    disconnectDatabase().finally(() => process.exit(0));
+  };
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
   }
 module.exports = app;
 

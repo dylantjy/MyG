@@ -20,9 +20,10 @@ To use OpenAI instead, set `OPENAI_API_KEY` in `backend/.env` (see `.env.example
 ```bash
 cd backend
 npm install
-npm run seed              # optional: demo account demo@myg.app / myg12345 with 3 weeks of workouts
 npm start                 # http://localhost:3000
 ```
+
+With the local database, the server creates a demo account on first start: **demo@myg.app / myg12345**, with three weeks of workouts. To reset it, stop the server and run `npm run seed`. Stop the server with Ctrl+C so the database shuts down cleanly.
 
 The first start downloads a MongoDB binary (about 1 minute). Check it's up with `curl localhost:3000`. The startup log shows which AI model and endpoint it is using.
 
