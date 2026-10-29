@@ -4,6 +4,16 @@ const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const Workout = require('../models/Workout');
 
+// Mock the LLM so the test doesn't depend on a running model or API key
+const mockCreate = jest.fn().mockResolvedValue({
+  choices: [{ message: { content: '- Add a rear delt exercise to balance your pressing.' } }]
+});
+jest.mock('openai', () => ({
+  OpenAI: jest.fn().mockImplementation(() => ({
+    chat: { completions: { create: mockCreate } }
+  }))
+}));
+
 let workoutId;
 let mongoServer;
 
@@ -43,6 +53,7 @@ describe('Workout Routes', () => {
   it('should log workout and return AI suggestions', async () => {
     const res = await request(app).patch(`/workout/${workoutId}/log`);
     expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('suggestions');
+    expect(res.body.suggestions).toContain('rear delt');
+    expect(mockCreate.mock.calls[0][0].messages[1].content).toContain('bench press');
   });
 });
