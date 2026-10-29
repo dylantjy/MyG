@@ -1,8 +1,9 @@
-console.log("this is the right file lol!!!");
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const connectDatabase = require('./db');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
@@ -35,13 +36,12 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal server error", error: err.message });
 });
 
-//connect to mongodb if not in testing mode
+//start server and connect to mongodb if not in testing mode
+//listen straight away so the server answers even if the database is slow or down
 if (require.main === module) {
-  mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {
-      console.log('✅ MongoDB connected');
-      app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
-    })
+  app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
+  connectDatabase()
+    .then(where => console.log(`✅ Connected to ${where}`))
     .catch(err => console.error('❌ MongoDB connection error:', err));
   }
 module.exports = app;

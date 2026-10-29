@@ -2,8 +2,7 @@ const express = require('express');
 const Workout = require('../models/Workout');
 const mongoose = require('mongoose');
 const router = express.Router();
-const {OpenAI} = require('openai');
-const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+const { getOpenAI, model } = require('../utils/openai');
 
 function calculateExerciseVolume(exercise) {
     let exerciseVolume = 0;
@@ -166,8 +165,8 @@ router.patch('/:id/log', async (req, res) => {
         }).join('\n\n');
 
         const aiPrompt = `You are a helpful science-based fitness assistant looking to maximise hypertrophy. As a science-based lifter, you are looking to maximise muscle growth through mechanical tension and minimise central nervous system fatigue, and suggest exercises that are stable as well as easy to progressive overload. For example, exercises like the squat, bench and deadlift would be considered suboptimal unless the user really wants to do it or is a powerlifter as those exercises are very taxing on the central nervous sytem, and are not as stable as compared to using the smith or cables. Also, try to match muscular leverages and resistance profiles to suggest good exercises/machines that best fits the resistance profile of the target muscle. The optimal rep range we are looking for here is 6-12. We try not to overdo the volume for each exercise(typically 2-3 sets is optimal). Here's the user's workout today:\n${workoutSummary}\n\n Here are the user's recent workout history:\n${workoutHistory}\n\nPlease give 2-3 concise suggestions based on current workout and all workouts done to improve hypertrophy, stability, or recovery. For example, if you see that a user keeps on training a specific body part, you can let him know which exact body part he keeps working on and advise him to train other parts more. If you notice that the volume of a specific exercise is decreasing, you can suggest lower volume for more recovery etc etc. Make sure your suggestions are not general and more more specifically targetted to this user. Return it as plain bullet points. If the user did an optimal exercise with optimal rep range and you have no criticism, just reply with encouragement.`;
-        const aiResponse = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
+        const aiResponse = await getOpenAI().chat.completions.create({
+            model,
             messages: [
               { role: 'system', content: 'You are a helpful and science-based lifting assistant.' },
               { role: 'user', content: aiPrompt }

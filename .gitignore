@@ -21,3 +21,6 @@ npm-debug.*
 
 # macOS
 .DS_Store
+
+# local MongoDB data (backend/db.js)
+backend/.data/
