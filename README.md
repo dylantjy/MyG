@@ -1,17 +1,19 @@
-# MyG
+<p align="center"><img src="docs/images/logo.png" width="140" alt="MyG logo"></p>
 
-**An iOS workout tracker with an AI coach, built for science-based lifters.**
+<h1 align="center">MyG</h1>
+
+<p align="center"><b>An iOS workout tracker with an AI coach, built for science-based lifters.</b></p>
 
 MyG logs your sets, reps and weights, charts your progress per exercise, and gives you a personal AI coach that reads your actual training history before answering. Built in two people over NUS Orbital 2025 (CP2106), where it reached the **Apollo 11** tier, the second-highest level.
 
-<!-- TODO: add screenshots / demo GIF here, e.g.
 <p align="center">
-  <img src="docs/images/login.png" width="200">
-  <img src="docs/images/workout-logger.png" width="200">
-  <img src="docs/images/ai-coach.png" width="200">
-  <img src="docs/images/progress.png" width="200">
+  <img src="docs/images/log-exercise.jpg" width="200" alt="Logging sets in a workout">
+  <img src="docs/images/ai-feedback.jpg" width="200" alt="AI feedback after logging a workout">
+  <img src="docs/images/ai-coach.jpg" width="200" alt="AI coach chat">
+  <img src="docs/images/muscle-tiers.jpg" width="200" alt="Muscle tier analysis">
 </p>
--->
+
+**Demo video:** [MyG walkthrough on YouTube](https://www.youtube.com/watch?v=Dw2wRHIpO8M)
 
 ## The problem
 
@@ -30,6 +32,32 @@ We wanted one app that keeps an accurate record of your training **and** turns t
 | **Food macro scanner** | Snap a photo of your meal: Google Cloud Vision identifies the food and the LLM estimates calories, protein, carbs and fat. |
 | **Macro-friendly map** | Shows healthier eateries near you on a map, using Singapore Health Promotion Board data. |
 | **Accounts** | Email/password signup and login with bcrypt-hashed passwords. |
+
+<details>
+<summary><b>More screenshots</b></summary>
+<p align="center">
+  <img src="docs/images/signup.jpg" width="180" alt="Signup">
+  <img src="docs/images/menu.jpg" width="180" alt="Feature menu">
+  <img src="docs/images/workouts.jpg" width="180" alt="Workout history">
+  <img src="docs/images/progress.jpg" width="180" alt="Progress chart">
+  <img src="docs/images/map.jpg" width="180" alt="Healthier eateries map">
+  <img src="docs/images/macro-scanner.jpg" width="180" alt="Food macro scanner rejecting a non-food photo">
+</p>
+</details>
+
+## User testing
+
+We tested the finished app with 9 lifters, from beginners to experienced users, and collected feedback through a Google Form.
+
+| Question | Result |
+|---|---|
+| Ease of navigation (1–5) | **All 9 rated 4 or 5** (56% gave 5) |
+| Overall design and layout (1–5) | **All 9 rated 4 or 5** (67% gave 4, 33% gave 5) |
+| Would use it regularly | **67% yes**, 33% maybe, 0% no |
+| Response time | 44% satisfactory, 56% acceptable |
+
+**What landed:** the AI features (post-workout suggestions, coach, muscle tiers) were the most-cited favourites, along with the progress tracker.
+**What didn't:** the eateries map felt too lenient about what counts as "macro-friendly" and showed too many options, the muscle tier ratings were unclear to some users, and several people asked for Google login and a form checker.
 
 ## Architecture
 
@@ -68,13 +96,13 @@ See [docs/SETUP.md](docs/SETUP.md). In short: open `ios/MyG.xcodeproj` in Xcode 
 ## Testing
 
 - **Backend:** Jest + Supertest against an in-memory MongoDB (`mongodb-memory-server`), covering signup/login, the workout lifecycle (start → add exercise → log) and the AI routes.
-- **iOS:** manual testing of each flow in the Xcode Simulator and on device.
+- **iOS:** manual testing of each flow in the Xcode Simulator.
 - **Users:** Google Forms survey on usability, clarity, and the accuracy of macro estimates and AI suggestions.
 
 ## Known limitations
 
 - After login the app identifies the user by a stored `userId`, and there are no session tokens yet, so the API trusts the client.
-- The Google Sign-In button is in the app, but the backend route is disabled.
+- Google Sign-In works in the backend, but it is disabled because shipping it in the iOS app needs a paid Apple Developer account. For the same reason the app isn't on the App Store.
 - The AI coach stores the user's questions but not its own replies, so its conversation memory is one-sided.
 - The backend runs on Render's free tier, so the first request after idle can take 30–60 s.
 
