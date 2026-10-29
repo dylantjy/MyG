@@ -259,8 +259,10 @@ class WorkoutService {
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // AI feedback can take a while, especially the first call to a local model
+        request.timeoutInterval = 120
 
-        URLSession.shared.dataTask(with: request) { data, _, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -271,19 +273,21 @@ class WorkoutService {
                 return
             }
 
-            do {
-                let decoded = try JSONDecoder().decode(WorkoutLogResponse.self, from: data)
+            if let decoded = try? JSONDecoder().decode(WorkoutLogResponse.self, from: data) {
                 completion(.success(decoded.suggestions))
-            } catch {
-                completion(.failure(error))
+            } else {
+                // Surface the server's message, e.g. "Invalid workout logged!" or the AI error
+                let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+                let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+                let message = json?["message"] as? String ?? "Unexpected server response (HTTP \(status))"
+                let detail = json?["error"] as? String
+                print("❌ Log workout failed with HTTP \(status): \(message) \(detail ?? "")")
+                completion(.failure(NSError(domain: "", code: status, userInfo: [NSLocalizedDescriptionKey: detail.map { "\(message) (\($0))" } ?? message])))
             }
         }.resume()
     }
 
     struct WorkoutLogResponse: Codable {
-        let message: String
-        let workoutId: String
-        let workout: Workout
         let suggestions: String
     }
 

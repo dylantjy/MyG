@@ -271,6 +271,8 @@ struct WorkoutDetailView: View {
     
     @State private var showSuggestionsModal = false
     @State private var aiSuggestions = ""
+    @State private var isLogging = false
+    @State private var logError: String?
     
     var suggestedName: String? {
         let input = normalizedName(newExerciseName)
@@ -345,8 +347,11 @@ struct WorkoutDetailView: View {
                         }
                 }
                 Button {
+                    isLogging = true
+                    logError = nil
                     WorkoutService.shared.logWorkout(workoutId: workout.id) { result in
                         DispatchQueue.main.async {
+                            isLogging = false
                             switch result {
                             case .success(let suggestions):
                                 print("✅ Workout logged successfully")
@@ -355,11 +360,22 @@ struct WorkoutDetailView: View {
                                 store.loadFromBackend(userId: userId)
                             case .failure(let error):
                                 print("❌ Failed to log workout:", error.localizedDescription)
+                                logError = error.localizedDescription
                             }
                         }
                     }
                 } label: {
-                    Text("📝 Log Workout")
+                    Group {
+                        if isLogging {
+                            HStack(spacing: 8) {
+                                ProgressView()
+                                    .tint(.white)
+                                Text("Coach is reviewing your workout…")
+                            }
+                        } else {
+                            Text("📝 Log Workout")
+                        }
+                    }
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -367,7 +383,15 @@ struct WorkoutDetailView: View {
                         .foregroundColor(.white)
                         .cornerRadius(16)
                 }
+                .disabled(isLogging)
                 .padding(.horizontal)
+                if let logError = logError {
+                    Text(logError)
+                        .font(.footnote)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
             }
             .padding()
         }
