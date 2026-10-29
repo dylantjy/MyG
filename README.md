@@ -29,7 +29,7 @@ We wanted one app that keeps an accurate record of your training **and** turns t
 | **Progress over time** | Charts the volume history for any exercise you've logged (Swift Charts). |
 | **AI coach** | Chat with a coach that is given your 20 most recent workouts and your past questions as context, and answers with a hypertrophy-focused system prompt. Logging a workout also triggers automatic advice. |
 | **Muscle tier analysis** | Ranks 12 muscle groups as Elite / Intermediate / Beginner / Untouched from your full workout history. |
-| **Food macro scanner** | Snap a photo of your meal: Google Cloud Vision identifies the food and the LLM estimates calories, protein, carbs and fat. |
+| **Food macro scanner** | Snap a photo of your meal (optionally add a description) and a vision-capable LLM identifies the dish and estimates calories, protein, carbs and fat. |
 | **Macro-friendly map** | Shows healthier eateries near you on a map, using Singapore Health Promotion Board data. |
 | **Accounts** | Email/password signup and login with bcrypt-hashed passwords. |
 
@@ -63,18 +63,17 @@ We tested the finished app with 9 lifters, from beginners to experienced users, 
 
 ```mermaid
 flowchart LR
-    A["iOS app<br/>SwiftUI"] -->|REST / JSON| B["Express.js API<br/>(Render)"]
-    B --> C[("MongoDB Atlas<br/>users, workouts,<br/>chat history")]
-    B --> D["OpenAI API<br/>coach, tiers, macros"]
-    B --> E["Google Cloud Vision<br/>food recognition"]
+    A["iOS app<br/>SwiftUI"] -->|REST / JSON| B["Express.js API"]
+    B --> C[("MongoDB<br/>users, workouts,<br/>chat history")]
+    B --> D["OpenAI API<br/>coach, tiers,<br/>macros, food photos"]
     A --> F["MapKit + HPB<br/>GeoJSON"]
 ```
 
-**Tech stack:** SwiftUI, Swift Charts, MapKit · Node.js, Express 5, Mongoose · MongoDB Atlas · OpenAI API · Google Cloud Vision · Jest + Supertest · deployed on Render.
+**Tech stack:** SwiftUI, Swift Charts, MapKit · Node.js, Express 5, Mongoose · MongoDB (Atlas or local) · OpenAI API (JSON mode, image input) · Jest + Supertest.
 
 ```
 ios/        SwiftUI app (open ios/MyG.xcodeproj)
-backend/    Express API: routes/, models/, utils/, test/
+backend/    Express API: routes/, models/, utils/, scripts/, test/
 docs/       Setup guide
 ```
 
@@ -89,7 +88,7 @@ We integrated and debugged the frontend and backend together.
 
 ## Running it
 
-See [docs/SETUP.md](docs/SETUP.md). In short: open `ios/MyG.xcodeproj` in Xcode and run. The app talks to the deployed backend by default, and you can point it at your own by editing `ios/MyG/APIConfig.swift`.
+See [docs/SETUP.md](docs/SETUP.md). In short: put an OpenAI API key in `backend/.env`, run `npm install && npm run seed && npm start` in `backend/`, then build the iOS app in the Simulator. Debug builds talk to `http://localhost:3000`. No database setup is needed: without a `MONGODB_URI` the backend runs a local MongoDB.
 
 ## Testing
 
@@ -101,8 +100,17 @@ See [docs/SETUP.md](docs/SETUP.md). In short: open `ios/MyG.xcodeproj` in Xcode 
 
 - After login the app identifies the user by a stored `userId`, and there are no session tokens yet, so the API trusts the client.
 - Google Sign-In works in the backend, but it is disabled because shipping it in the iOS app needs a paid Apple Developer account. For the same reason the app isn't on the App Store.
-- The AI coach stores the user's questions but not its own replies, so its conversation memory is one-sided.
-- The backend runs on Render's free tier, so the first request after idle can take 30–60 s.
+- The original Render deployment is offline, so the app currently runs against a local backend.
+
+## Since Orbital
+
+While preparing this repo in 2026, I ([@dylantjy](https://github.com/dylantjy)) brought the project back to a runnable state on my own accounts:
+
+- **Restored the iOS source.** It had ended up as an Xcode settings zip, so no Swift code was visible on `main`.
+- **Self-contained backend:** it now runs locally with no database setup, and the server starts listening before the database connects, so it no longer hangs when MongoDB is unreachable.
+- **Food scanner works end to end:** the app now uploads the photo, which it never did before (only the text description was sent). The backend sends the photo straight to the LLM, replacing Google Cloud Vision.
+- **More reliable AI output:** JSON mode for the muscle tiers and macro estimates (malformed JSON was our most common bug), a current model that can be changed in config, and the coach now remembers its own replies as well as the user's questions.
+- **Login errors are shown to the user** instead of being silently ignored, and there's a demo-data seed script.
 
 ## Reflections
 

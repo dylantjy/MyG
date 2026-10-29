@@ -1,25 +1,42 @@
 # Setup
 
-## iOS app
+Run the backend on your Mac, then run the iOS app in the Simulator. Debug builds of the app talk to `http://localhost:3000`.
 
-**Requirements:** a Mac with Xcode 16+ and a free Apple ID. The project targets iOS 18.4.
+## 1. Backend
 
-1. Open `ios/MyG.xcodeproj` in Xcode. Swift Package Manager fetches the GoogleSignIn dependency automatically.
-2. Select the **MyG** target → **Signing & Capabilities**, choose your Apple ID as the Team, and change the Bundle Identifier to something unique (e.g. `com.yourname.MyG`).
-3. Pick a simulator (or a connected iPhone) and press **Run**.
-
-The app uses the deployed backend at `https://myg-de3i.onrender.com`. To use your own, change `baseURL` in `ios/MyG/APIConfig.swift`.
-
-> The backend is on Render's free tier. If the first request fails or hangs, wait 30–60 seconds for it to wake up and try again.
-
-## Backend
-
-**Requirements:** Node.js 18+, a MongoDB Atlas cluster, an OpenAI API key, and a Google Cloud Vision service account (food scanner only).
+**Requirements:** Node.js 18+ and an OpenAI API key. That's it: with no `MONGODB_URI` set, the backend starts a local MongoDB that keeps its data in `backend/.data/`.
 
 ```bash
 cd backend
 npm install
-cp .env.example .env   # then fill in your values
-npm start              # http://localhost:3000
-npm test               # Jest + Supertest with an in-memory MongoDB
+cp .env.example .env      # then set OPENAI_API_KEY
+npm run seed              # optional: demo account demo@myg.app / myg12345 with 3 weeks of workouts
+npm start                 # http://localhost:3000
+```
+
+The first start downloads a MongoDB binary (about 1 minute). Check it's up with `curl localhost:3000`.
+
+To use MongoDB Atlas instead, set `MONGODB_URI` in `.env`. Without an OpenAI key, accounts and workout logging still work, but the AI features return errors.
+
+## 2. iOS app
+
+**Requirements:** a Mac with Xcode 16+. The project targets iOS 18.4.
+
+### In Xcode
+Open `ios/MyG.xcodeproj`, pick an iPhone simulator, and press **Run**. Simulator builds don't need signing. To run on a physical iPhone, set your Apple ID as the Team under **Signing & Capabilities**, change the Bundle Identifier, and point `ios/MyG/APIConfig.swift` at your Mac's LAN IP.
+
+### From the terminal
+```bash
+xcodebuild -project ios/MyG.xcodeproj -scheme MyG -destination 'platform=iOS Simulator,name=iPhone 16' -derivedDataPath build build
+xcrun simctl boot "iPhone 16"; open -a Simulator
+xcrun simctl install booted build/Build/Products/Debug-iphonesimulator/MyG.app
+xcrun simctl launch --console booted com.aldy.MyG
+```
+
+Use a simulator name from `xcrun simctl list devices available`. If your Xcode is older than 16.3, add `IPHONEOS_DEPLOYMENT_TARGET=18.0` before the final `build`.
+
+## Tests
+
+```bash
+cd backend && npm test    # Jest + Supertest with an in-memory MongoDB; OpenAI is mocked
 ```

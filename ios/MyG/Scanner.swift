@@ -22,8 +22,13 @@ struct PhotoMacroScannerView: View {
                     .frame(height: 200)
                     .cornerRadius(12)
                     .shadow(radius: 3)
+                    .onTapGesture { isPickerPresented = true }
 
-                TextField("Describition (optional but recommended)", text: $foodInput)
+                Text("Tap the photo to choose another")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+
+                TextField("Description (optional)", text: $foodInput)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
             } else {
@@ -90,15 +95,12 @@ struct PhotoMacroScannerView: View {
     }
 
     func analyzePhoto() {
-        guard !foodInput.trimmingCharacters(in: .whitespaces).isEmpty else {
-            resultText = "Please enter what food is in the photo for better accuracy."
-            return
-        }
+        guard let image = selectedImage else { return }
 
         isScanning = true
         resultText = nil
 
-        WorkoutService.shared.calculateMacros(for: foodInput) { result in
+        uploadFoodPhoto(image, description: foodInput) { result in
             DispatchQueue.main.async {
                 isScanning = false
                 switch result {
@@ -106,16 +108,18 @@ struct PhotoMacroScannerView: View {
                     if let error = data["error"] as? String {
                         resultText = "⚠️ \(error)"
                     } else {
+                        let dish = data["dish"] as? String ?? "Your meal"
                         let calories = data["calories"] as? Double ?? 0
                         let protein = data["protein"] as? Double ?? 0
                         let carbs = data["carbs"] as? Double ?? 0
                         let fat = data["fat"] as? Double ?? 0
 
                         resultText = """
-                        Calories: \(calories)
-                        Protein: \(protein)g
-                        Carbs: \(carbs)g
-                        Fat: \(fat)g
+                        \(dish)
+                        Calories: \(Int(calories.rounded())) kcal
+                        Protein: \(Int(protein.rounded()))g
+                        Carbs: \(Int(carbs.rounded()))g
+                        Fat: \(Int(fat.rounded()))g
                         """
                     }
                 case .failure(let error):
@@ -124,6 +128,62 @@ struct PhotoMacroScannerView: View {
             }
         }
     }
+}
+
+// MARK: - Photo upload
+
+// Sends the photo (downscaled to at most 1024px) and optional description to the backend's food scanner
+func uploadFoodPhoto(_ image: UIImage, description: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+    guard let url = URL(string: "\(APIConfig.baseURL)/smartscan/photo-macros") else {
+        completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+        return
+    }
+
+    let maxSide: CGFloat = 1024
+    let scale = min(1, maxSide / max(image.size.width, image.size.height))
+    let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+    let format = UIGraphicsImageRendererFormat()
+    format.scale = 1
+    let resized = UIGraphicsImageRenderer(size: size, format: format).image { _ in
+        image.draw(in: CGRect(origin: .zero, size: size))
+    }
+    guard let jpeg = resized.jpegData(compressionQuality: 0.8) else {
+        completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not read the photo"])))
+        return
+    }
+
+    let boundary = "Boundary-\(UUID().uuidString)"
+    var body = Data()
+    let trimmedDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !trimmedDescription.isEmpty {
+        body.append(Data("--\(boundary)\r\n".utf8))
+        body.append(Data("Content-Disposition: form-data; name=\"description\"\r\n\r\n".utf8))
+        body.append(Data("\(trimmedDescription)\r\n".utf8))
+    }
+    body.append(Data("--\(boundary)\r\n".utf8))
+    body.append(Data("Content-Disposition: form-data; name=\"image\"; filename=\"food.jpg\"\r\n".utf8))
+    body.append(Data("Content-Type: image/jpeg\r\n\r\n".utf8))
+    body.append(jpeg)
+    body.append(Data("\r\n--\(boundary)--\r\n".utf8))
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    request.timeoutInterval = 90
+
+    URLSession.shared.uploadTask(with: request, from: body) { data, _, error in
+        if let error = error {
+            print("❌ Photo upload failed: \(error.localizedDescription)")
+            completion(.failure(error))
+            return
+        }
+        guard let data = data,
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response from server"])))
+            return
+        }
+        completion(.success(json))
+    }.resume()
 }
 
 // MARK: - PhotoPicker
