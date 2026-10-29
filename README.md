@@ -104,7 +104,7 @@ See [docs/SETUP.md](docs/SETUP.md). In short: install [Ollama](https://ollama.co
 
 ## Since Orbital
 
-While preparing this repo in 2026, I ([@dylantjy](https://github.com/dylantjy)) brought the project back to a runnable state on my own accounts:
+While preparing this repo in 2026, I ([@dylantjy](https://github.com/dylantjy)), working with an AI coding assistant, brought the project back to a runnable state on my own accounts:
 
 - **Restored the iOS source.** It had ended up as an Xcode settings zip, so no Swift code was visible on `main`.
 - **Self-contained backend:** it now runs locally with no database setup, and the server starts listening before the database connects, so it no longer hangs when MongoDB is unreachable.
