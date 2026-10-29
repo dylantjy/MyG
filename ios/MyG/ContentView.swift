@@ -6,6 +6,8 @@ struct ContentView: View {
     @State private var password: String = ""
     @State private var username: String = ""
     @State private var isLoginMode: Bool = false
+    @State private var isLoading: Bool = false
+    @State private var errorMessage: String?
     @AppStorage("userId") var userId: String = ""
 
     let googleClientID = "674979663593-k10o1u2c7qs7fkcbog5ii9ucoiu2s0f7.apps.googleusercontent.com"
@@ -45,35 +47,51 @@ struct ContentView: View {
                     .autocapitalization(.none)
             }
             Button(action: {
-                if isLoginMode {
-                    sendLoginData(email: email, password: password) { returnedUserId in
+                errorMessage = nil
+                isLoading = true
+                let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+                let handleResult: (String?, String?) -> Void = { returnedUserId, error in
+                    DispatchQueue.main.async {
+                        isLoading = false
                         if let id = returnedUserId {
-                            DispatchQueue.main.async {
-                                userId = id // ✅ this stores it globally
-                                isSignedIn = true
-                            }
-                        }
-                    }
-                } else {
-                    sendSignupData(email: email, password: password, username: username) { returnedUserId in
-                        if let id = returnedUserId {
-                            DispatchQueue.main.async {
-                                userId = id // ✅ this stores it globally
-                                isSignedIn = true
-                            }
+                            userId = id // ✅ this stores it globally
+                            isSignedIn = true
+                        } else {
+                            errorMessage = error
                         }
                     }
                 }
+                if isLoginMode {
+                    sendLoginData(email: trimmedEmail, password: password, completion: handleResult)
+                } else {
+                    sendSignupData(email: trimmedEmail, password: password, username: username, completion: handleResult)
+                }
             }) {
-                Text(isLoginMode ? "Login" : "Continue")
+                Group {
+                    if isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text(isLoginMode ? "Login" : "Continue")
+                    }
+                }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.black)
                     .cornerRadius(10)
             }
+            .disabled(isLoading || email.isEmpty || password.isEmpty)
+            .opacity(email.isEmpty || password.isEmpty ? 0.5 : 1)
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
+                    .font(.footnote)
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
+            }
             Button(action: {
                 isLoginMode.toggle()
+                errorMessage = nil
             }) {
                 Text(isLoginMode ? "Don't have an account? Sign up" : "Already have an account? Log in")
                     .font(.footnote)
@@ -89,17 +107,7 @@ struct ContentView: View {
         .padding()
     }
 }
-func sendSignupData(email: String, password: String, username: String?, completion: @escaping (String?) -> Void) {
-    guard let url = URL(string: "\(APIConfig.baseURL)/auth/signup") else {
-        print("Invalid signup URL")
-        completion(nil)
-        return
-    }
-
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+func sendSignupData(email: String, password: String, username: String?, completion: @escaping (String?, String?) -> Void) {
     var body: [String: String] = [
         "email": email,
         "password": password
@@ -107,90 +115,53 @@ func sendSignupData(email: String, password: String, username: String?, completi
     if let username = username, !username.isEmpty {
         body["username"] = username
     }
-
-    do {
-        request.httpBody = try JSONEncoder().encode(body)
-    } catch {
-        print("❌ Encoding error: \(error)")
-        completion(nil)
-        return
-    }
-
-    URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            print("❌ Signup request failed: \(error.localizedDescription)")
-            completion(nil)
-            return
-        }
-
-        guard let data = data else {
-            print("❌ No data in signup response")
-            completion(nil)
-            return
-        }
-
-        do {
-            let json = try JSONDecoder().decode([String: String].self, from: data)
-            if let userId = json["userId"] {
-                completion(userId)
-            } else {
-                print("❌ userId missing in signup response")
-                completion(nil)
-            }
-        } catch {
-            print("❌ JSON decoding error: \(error)")
-            completion(nil)
-        }
-    }.resume()
+    postAuthRequest(path: "/auth/signup", body: body, completion: completion)
 }
 
-func sendLoginData(email: String, password: String, completion: @escaping (String?) -> Void) {
-    guard let url = URL(string: "\(APIConfig.baseURL)/auth/manual-login") else {
-        print("Invalid login URL")
-        completion(nil)
+func sendLoginData(email: String, password: String, completion: @escaping (String?, String?) -> Void) {
+    let body: [String: String] = [
+        "email": email,
+        "password": password
+    ]
+    postAuthRequest(path: "/auth/manual-login", body: body, completion: completion)
+}
+
+// Calls completion with (userId, nil) on success or (nil, message to show the user) on failure
+func postAuthRequest(path: String, body: [String: String], completion: @escaping (String?, String?) -> Void) {
+    guard let url = URL(string: "\(APIConfig.baseURL)\(path)") else {
+        completion(nil, "Invalid server URL")
         return
     }
 
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    let body: [String: String] = [
-        "email": email,
-        "password": password
-    ]
+    // The free-tier backend can take up to a minute to wake up
+    request.timeoutInterval = 90
 
     do {
         request.httpBody = try JSONEncoder().encode(body)
     } catch {
-        print("❌ Encoding error: \(error)")
-        completion(nil)
+        completion(nil, "Could not encode request")
         return
     }
 
     URLSession.shared.dataTask(with: request) { data, response, error in
         if let error = error {
-            print("❌ Login request failed: \(error.localizedDescription)")
-            completion(nil)
+            print("❌ \(path) request failed: \(error.localizedDescription)")
+            completion(nil, "Can't reach the server: \(error.localizedDescription)")
             return
         }
 
-        guard let data = data else {
-            print("❌ No data in login response")
-            completion(nil)
-            return
-        }
+        let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+        let json = data.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] }
 
-        do {
-            let json = try JSONDecoder().decode([String: String].self, from: data)
-            if let userId = json["userId"] {
-                completion(userId)
-            } else {
-                print("❌ userId missing in login response")
-                completion(nil)
-            }
-        } catch {
-            print("❌ JSON decoding error: \(error)")
-            completion(nil)
+        if let userId = json?["userId"] as? String {
+            completion(userId, nil)
+        } else {
+            let message = json?["message"] as? String ?? "Unexpected server response (HTTP \(status))"
+            print("❌ \(path) failed with HTTP \(status): \(message)")
+            completion(nil, message)
         }
     }.resume()
 }

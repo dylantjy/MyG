@@ -10,7 +10,7 @@ import SwiftUI
 @main
 
 struct MyGApp: App {
-  @State private var isSignedIn = true
+  @State private var isSignedIn = false
     
   var body: some Scene {
     WindowGroup {
