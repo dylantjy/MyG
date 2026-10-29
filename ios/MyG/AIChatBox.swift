@@ -88,7 +88,7 @@ struct ChatView: View {
         inputText = ""
         isLoading = true
 
-        let url = URL(string: "https://myg-de3i.onrender.com/ai/ai-coach")!
+        let url = URL(string: "\(APIConfig.baseURL)/ai/ai-coach")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

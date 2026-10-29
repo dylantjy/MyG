@@ -90,7 +90,7 @@ struct ContentView: View {
     }
 }
 func sendSignupData(email: String, password: String, username: String?, completion: @escaping (String?) -> Void) {
-    guard let url = URL(string: "https://aed5-175-156-215-114.ngrok-free.app/auth/signup") else {
+    guard let url = URL(string: "\(APIConfig.baseURL)/auth/signup") else {
         print("Invalid signup URL")
         completion(nil)
         return
@@ -145,7 +145,7 @@ func sendSignupData(email: String, password: String, username: String?, completi
 }
 
 func sendLoginData(email: String, password: String, completion: @escaping (String?) -> Void) {
-    guard let url = URL(string: "https://aed5-175-156-215-114.ngrok-free.app/auth/manual-login") else {
+    guard let url = URL(string: "\(APIConfig.baseURL)/auth/manual-login") else {
         print("Invalid login URL")
         completion(nil)
         return
@@ -197,7 +197,7 @@ func sendLoginData(email: String, password: String, completion: @escaping (Strin
 
 func sendGoogleTokenToBackend(idToken: String, completion: @escaping (String?) -> Void) {
     guard let url = URL(string:
-        "https://aed5-175-156-215-114.ngrok-free.app/auth/google-login") else {
+        "\(APIConfig.baseURL)/auth/google-login") else {
         completion(nil)
         return
     }

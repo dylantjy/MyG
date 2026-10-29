@@ -16,7 +16,7 @@ struct VolumeEntry: Codable {
 
 class WorkoutService {
     static let shared = WorkoutService()
-    private let baseURL = "https://myg-de3i.onrender.com" // Replace with your backend URL
+    private let baseURL = APIConfig.baseURL
 
     func getExerciseProgress(userId: String, exerciseName: String, completion: @escaping ([String: Double]) -> Void) {
         let normalized = exerciseName
